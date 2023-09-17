@@ -113,3 +113,94 @@ setupConfig({
 # 好用的组件库
 
 [swiper](https://swiperjs.com/demos) 横向滚动组件库，有丰富的设置。
+
+# Redux
+
+* state - 传输的数据
+  * Domain State - server 返回的state
+  * UI State - 当前组件的state
+  * APP State - 全局的state
+
+* action - 一个js obj
+  * **必须**包含type属性，通常使用字符串
+  * 仅描述了有事情发生，没有描述如何更新state
+* reducer 用于接收action的纯函数
+  * return的值就是存储的值
+* store - 用于联系ation和reducer
+  * 主要职责
+    * 维护state
+    * 获取state - getState()
+    * 发送action - dispatch()
+    * 注册监听 & 注销监听 - subscribe()
+
+## coding exmaple
+
+* create action | reducer | store directory in root dir
+
+* create index.ts for them -- the purpose is to set the entry for all reducers and actions
+
+  * action index.
+
+    ```typescript
+    export const sendAction = {
+      type: "send_type", // mandatory vriable
+      val1: "this is an action", // variable name and default value.
+    };
+    ```
+
+  * reducer index.ts
+
+    ```typescript
+    export const reducer = (
+      state: any = { val1: "default value" },
+      action: any
+    ) => {
+      console.log(`reducer:`, state, action);
+      switch (action.type) {
+        case "send_type":
+          return { ...state, ...action }; // returing means updating state to what returned
+        default:
+          return state;
+      }
+    };
+    ```
+
+  * store index.ts
+
+    ```typescript
+    import {createStore } from "redux";
+    import {reducer} from "../reducer";
+    
+    const store = createStore(reducer);
+    
+    export default store;
+    ```
+
+* use redux in other components
+
+  ```typescript
+  import React, { useState } from "react";
+  import store from "../../store";
+  
+  import { sendAction } from "../../action";
+  
+  export const Home: React.FC = (props) => {
+    let [val, setVal] = useState(0);
+    const handleClick = () => {
+      // send action, this action is update 'val1' to "new Value: val"
+      store.dispatch({ ...sendAction, val1: "new Value: " + val });
+      setVal((pre) => pre + 1);
+    };
+    return (
+      <>
+        <button onClick={handleClick}>click me</button>
+        <div>{store.getState().val1}</div> /* use state in store */
+        <div>{val}</div>
+      </>
+    );
+  };
+  
+  ```
+
+  
+

@@ -328,3 +328,6 @@
   * TLS1.3：双侧加密
 
 # Networking concepts that affect backend performance
+
+* MTU - maximum transmission unit
+* 待续
