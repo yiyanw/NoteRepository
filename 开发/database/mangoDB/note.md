@@ -26,3 +26,26 @@
     * net start MongoDB
   * stop service on windows
     * net stop MongoDB
+  * db.\<collection>.find({"\<feature>": "\<value>"})
+    * Logic
+      * $and - {$and: [{xxx},{yyy}]}
+      * $or -  {$or: [{xxx},{yyy}]}
+      * $all - {"\<feature>": {$all: [xxx,yyy]} }
+      * $in - {"\<feature>": {$in: [xxx,yyy]} }
+    * Sort({'\<feature>': 1}) - increading (-1 decreasing)
+    * Limit(\<number>)
+    * Count()
+  * Db.\<collection>.update({\<target>}, {\<changes>}) / db.\<collection>.updateOne(...)
+    * $set / $unset - {$(un)set: {xxx}} - can be used in \<changes>
+    * $inc - {$inc: {"\<feature>": \<addNum>}}
+    * array
+      * $push
+      * $pull
+  * Delete / deleteOne
+  
+* integrate with nodejs
+  
+  * ```js
+    ```
+  
+  * 
